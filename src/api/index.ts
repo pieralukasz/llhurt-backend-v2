@@ -1,1 +1,1 @@
-export * from './fetchAllWarehouseProducts/fetchAllWarehouseProducts';
+export * from './fetchAllWarehouseProducts';

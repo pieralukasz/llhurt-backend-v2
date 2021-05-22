@@ -12,7 +12,10 @@
     "baseUrl": "./",
     "incremental": true,
     "paths": {
+      "@api": ["src/api"],
       "@environments": ["src/environments"],
+      "@dto": ["src/dto"],
+      "@schemas": ["src/schemas"],
     }
   }
 }

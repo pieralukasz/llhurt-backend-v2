@@ -7,14 +7,12 @@ export class WarehouseController {
   constructor(private readonly warehouseService: WarehouseService) {}
 
   @Get()
-  async getWarehouseProducts() {
+  getWarehouseProducts() {
     return this.warehouseService.getWarehouseProducts();
   }
 
   @Get('category')
-  async getWarehouseProductByCategory(
-    @Query('name') categoryName: ProductCategory,
-  ) {
+  getWarehouseProductByCategory(@Query('name') categoryName: ProductCategory) {
     return this.warehouseService.getWarehouseProductByCategory(categoryName);
   }
 }

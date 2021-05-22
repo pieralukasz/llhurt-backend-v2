@@ -6,4 +6,5 @@ export default () => ({
   warehouseUrl:
     process.env.WAREHOUSE_URL ||
     'http://magazyn.szlafroki.com/csv/ArkuszZamowien.xml',
+  mongoUrl: process.env.MONGO_URL || '',
 });
