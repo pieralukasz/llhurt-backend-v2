@@ -1,4 +1,4 @@
-import { IsOptional, IsPositive, MaxLength } from 'class-validator';
+import { IsOptional, IsPositive } from 'class-validator';
 
 class PaginationDto {
   @IsOptional()

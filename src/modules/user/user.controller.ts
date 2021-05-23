@@ -14,6 +14,7 @@ import { CreateUserDto, PaginationDto, UpdateUserDto } from '@dto';
 import { User } from '@schemas';
 
 import { UserService } from './user.service';
+import { Schema as MongooseSchema } from 'mongoose';
 
 @Controller('user')
 export class UserController {
@@ -25,6 +26,29 @@ export class UserController {
     return res.status(HttpStatus.OK).json(users);
   }
 
+  @Get('find/:id')
+  async getUserById(
+    @Res() res,
+    @Param('id') userId: MongooseSchema.Types.ObjectId,
+  ) {
+    try {
+      const user = await this.userService.findUserById(userId);
+      if (!user) {
+        throw new NotFoundException('Error: User does not exist');
+      }
+      return res.status(HttpStatus.OK).json({
+        status: HttpStatus.OK,
+        message: `Success: User has been found`,
+        user,
+      });
+    } catch (error) {
+      return res.status(HttpStatus.BAD_REQUEST).json({
+        status: HttpStatus.BAD_REQUEST,
+        message: 'Error: User can not be found',
+      });
+    }
+  }
+
   @Post('create')
   async createUser(
     @Res() res,
@@ -32,30 +56,16 @@ export class UserController {
   ): Promise<User> {
     try {
       const user = await this.userService.createUser(createUserDto);
-      return res.status(HttpStatus.OK).json({
-        message: 'User has been created successfully',
+      return res.status(HttpStatus.CREATED).json({
+        status: HttpStatus.CREATED,
+        message: 'Success: User has been created',
         user,
       });
     } catch (error) {
+      console.log(error.message);
       return res.status(HttpStatus.BAD_REQUEST).json({
-        message: 'Error: User not created',
         status: HttpStatus.BAD_REQUEST,
-      });
-    }
-  }
-
-  @Get('find/:id')
-  async getUserById(@Res() res, @Param('id') userId: string) {
-    try {
-      const user = await this.userService.findUserById(userId);
-      return res.status(HttpStatus.OK).json({
-        message: 'User has been found',
-        user,
-      });
-    } catch (error) {
-      return res.status(HttpStatus.BAD_REQUEST).json({
-        message: 'Error: User can not be found',
-        status: HttpStatus.BAD_REQUEST,
+        message: `Error: User not created | ${error.message}`,
       });
     }
   }
@@ -63,22 +73,23 @@ export class UserController {
   @Put('update/:id')
   async updateUser(
     @Res() res,
-    @Param('id') userId: string,
+    @Param('id') userId: MongooseSchema.Types.ObjectId,
     @Body() updateUserDto: UpdateUserDto,
   ) {
     try {
       const user = await this.userService.updateUser(userId, updateUserDto);
       if (!user) {
-        throw new NotFoundException('User does not exist!');
+        throw new NotFoundException('Error: User does not exist');
       }
       return res.status(HttpStatus.OK).json({
-        message: 'User has been successfully updated',
+        status: HttpStatus.OK,
+        message: 'Success: User has been updated',
         user,
       });
     } catch (err) {
       return res.status(HttpStatus.BAD_REQUEST).json({
-        message: 'Error: User not updated!',
-        status: 400,
+        status: HttpStatus.BAD_REQUEST,
+        message: 'Error: User not updated',
       });
     }
   }

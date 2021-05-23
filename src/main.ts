@@ -8,6 +8,7 @@ import Log from './utils/Log';
 
 (async () => {
   const app = await NestFactory.create(AppModule);
+
   app.enableCors();
 
   new Swagger().activate(app);
