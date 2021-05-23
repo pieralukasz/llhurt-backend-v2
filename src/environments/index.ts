@@ -10,5 +10,4 @@ export default () => ({
     'http://magazyn.szlafroki.com/csv/ArkuszZamowien.xml',
   mongoUrl: process.env.MONGO_URL || '',
   jwtUserSecret: process.env.JWT_USER_SECRET || '',
-  jwtAdminSecret: process.env.JWT_ADMIN_SECRET || '',
 });

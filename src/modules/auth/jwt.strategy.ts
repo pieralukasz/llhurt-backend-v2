@@ -3,6 +3,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 
 import config from '@environments';
+
 import { TokenResponse } from '../../types/TokenResponse';
 
 @Injectable()

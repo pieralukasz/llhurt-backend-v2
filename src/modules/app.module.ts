@@ -1,6 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { APP_GUARD } from '@nestjs/core';
+
+import { JwtAuthGuard } from './auth/guard';
+import { RolesGuard } from './auth/guard';
 
 import config from '@environments';
 
@@ -8,8 +12,6 @@ import OrderModule from './order';
 import WarehouseModule from './warehouse';
 import UserModule from './user';
 import AuthModule from './auth';
-import { APP_GUARD } from '@nestjs/core';
-import { JwtAuthGuard } from './auth/jwt-auth.guard';
 
 @Module({
   imports: [
@@ -24,6 +26,10 @@ import { JwtAuthGuard } from './auth/jwt-auth.guard';
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
     },
   ],
 })

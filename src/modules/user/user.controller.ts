@@ -15,17 +15,21 @@ import { User } from '@schemas';
 
 import { UserService } from './user.service';
 import { Schema as MongooseSchema } from 'mongoose';
+import { Public, Roles } from '../../utils/decorators';
+import { Role } from '../../types/enum/Role';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @Roles(Role.Admin)
   @Get('list')
   async getAllUsers(@Res() res, @Query() pagination: PaginationDto) {
     const users = await this.userService.findAllUsers(pagination);
     return res.status(HttpStatus.OK).json(users);
   }
 
+  @Roles(Role.Admin)
   @Get('find/:id')
   async getUserById(
     @Res() res,
@@ -49,20 +53,19 @@ export class UserController {
     }
   }
 
+  @Public()
   @Post('create')
   async createUser(
     @Res() res,
     @Body() createUserDto: CreateUserDto,
   ): Promise<User> {
     try {
-      const user = await this.userService.createUser(createUserDto);
+      await this.userService.createUser(createUserDto);
       return res.status(HttpStatus.CREATED).json({
         status: HttpStatus.CREATED,
         message: 'Success: User has been created',
-        user,
       });
     } catch (error) {
-      console.log(error.message);
       return res.status(HttpStatus.BAD_REQUEST).json({
         status: HttpStatus.BAD_REQUEST,
         message: `Error: User not created | ${error.message}`,
@@ -70,6 +73,7 @@ export class UserController {
     }
   }
 
+  @Roles(Role.Admin)
   @Put('update/:id')
   async updateUser(
     @Res() res,

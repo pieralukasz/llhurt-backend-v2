@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, Schema as MongooseSchema } from 'mongoose';
 import { CreateUserDto, PaginationDto, UpdateUserDto } from '@dto';
 import { User, UserDocument } from '@schemas';
+import { Role } from '../../types/enum/Role';
 
 @Injectable()
 export class UserService {
@@ -12,7 +13,9 @@ export class UserService {
     const { limit, offset } = pagination;
 
     return await this.userModel
-      .find()
+      .find({
+        role: Role.User,
+      })
       .skip(+offset)
       .limit(+limit)
       .exec();
