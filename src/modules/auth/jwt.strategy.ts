@@ -18,8 +18,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
   async validate(payload: any): Promise<TokenResponse> {
     return {
-      email: payload.email,
-      id: payload.id,
+      username: payload.email,
+      sub: payload.id,
     };
   }
 }

@@ -4,6 +4,7 @@ import { Model, Schema as MongooseSchema } from 'mongoose';
 import { CreateUserDto, PaginationDto, UpdateUserDto } from '@dto';
 import { User, UserDocument } from '@schemas';
 import { Role } from '../../types/enum/Role';
+import { hashPassword } from '../../utils/bcryptPassword';
 
 @Injectable()
 export class UserService {
@@ -42,7 +43,11 @@ export class UserService {
   }
 
   async createUser(createUserDto: CreateUserDto): Promise<User> {
-    const createdUser = await this.userModel.create(createUserDto);
+    const user = Object.assign(createUserDto, {
+      password: await hashPassword(createUserDto.password),
+    });
+
+    const createdUser = await this.userModel.create(user);
     return await createdUser.save();
   }
 

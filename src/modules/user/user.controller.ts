@@ -46,8 +46,8 @@ export class UserController {
         user,
       });
     } catch (error) {
-      return res.status(HttpStatus.BAD_REQUEST).json({
-        status: HttpStatus.BAD_REQUEST,
+      return res.status(HttpStatus.NOT_FOUND).json({
+        status: HttpStatus.NOT_FOUND,
         message: 'Error: User can not be found',
       });
     }
