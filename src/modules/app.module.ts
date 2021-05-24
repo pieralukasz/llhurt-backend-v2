@@ -17,7 +17,11 @@ import BasketModule from './basket';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ load: [config] }),
+    ConfigModule.forRoot({
+      envFilePath: '.env',
+      load: [config],
+      isGlobal: true,
+    }),
     MongooseModule.forRoot(config().mongoUrl),
     AuthModule,
     UserModule,
