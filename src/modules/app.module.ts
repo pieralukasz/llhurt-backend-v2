@@ -12,6 +12,8 @@ import OrderModule from './order';
 import WarehouseModule from './warehouse';
 import UserModule from './user';
 import AuthModule from './auth';
+import ImageModule from './image';
+import BasketModule from './basket';
 
 @Module({
   imports: [
@@ -21,6 +23,8 @@ import AuthModule from './auth';
     UserModule,
     OrderModule,
     WarehouseModule,
+    BasketModule,
+    ImageModule,
   ],
   providers: [
     {
