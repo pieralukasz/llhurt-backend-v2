@@ -2,18 +2,21 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { ProductType } from '../../types/ProductType';
 
-export type BasketDocument = Basket & Document;
+export type OrderDocument = Order & Document;
 
 @Schema()
-export class Basket {
+export class Order {
   @Prop({ required: true })
   userId: string;
 
-  @Prop()
+  @Prop({ required: true })
   products: ProductType[];
+
+  @Prop({ default: '-' })
+  message: string;
 
   @Prop({ default: Date.now() })
   createdAt: Date;
 }
 
-export const BasketSchema = SchemaFactory.createForClass(Basket);
+export const OrderSchema = SchemaFactory.createForClass(Order);

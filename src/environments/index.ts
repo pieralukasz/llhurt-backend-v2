@@ -5,6 +5,8 @@ export default () => ({
   awsBucketRegion: process.env.AWS_BUCKET_REGION || '',
   awsAccessKey: process.env.AWS_ACCESS_KEY || '',
   awsSecretKey: process.env.AWS_SECRET_KEY || '',
+  mailName: process.env.MAIL_NAME || 'eszlafrok@gmail.com',
+  mailPassword: process.env.MAIL_PASSWORD || '',
   projectName: process.env.PROJECT_NAME || 'LLHURT',
   apiVersion: process.env.API_VERSION || 1.0,
   port: parseInt(process.env.PORT, 10) || 3000,

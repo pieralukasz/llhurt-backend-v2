@@ -18,6 +18,9 @@ export class User {
   @Prop({ default: Role.User, enum: [Role.User, Role.Admin] })
   role: Role;
 
+  @Prop({ default: null })
+  lastLogin: Date | null;
+
   @Prop({ default: Date.now() })
   createdAt: Date;
 }

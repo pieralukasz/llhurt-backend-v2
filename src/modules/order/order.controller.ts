@@ -1,12 +1,12 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Post, Req, Res } from '@nestjs/common';
 import { OrderService } from './order.service';
 
 @Controller('order')
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
-  @Get()
-  findAll() {
-    return 'hello';
+  @Post('create')
+  createOrder(@Req() req, @Res() res) {
+    return this.orderService.createNewOrder();
   }
 }

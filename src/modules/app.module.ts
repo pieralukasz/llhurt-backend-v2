@@ -14,6 +14,7 @@ import UserModule from './user';
 import AuthModule from './auth';
 import ImageModule from './image';
 import BasketModule from './basket';
+import MailModule from './mail';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import BasketModule from './basket';
     WarehouseModule,
     BasketModule,
     ImageModule,
+    MailModule,
   ],
   providers: [
     {

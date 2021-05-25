@@ -60,6 +60,9 @@ export class UserService {
     const existingUser = await this.userModel.findByIdAndUpdate(
       userId,
       updateUserDto,
+      {
+        new: true,
+      },
     );
 
     if (!existingUser) {
