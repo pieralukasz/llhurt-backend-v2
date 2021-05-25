@@ -16,6 +16,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
+  // @Override
   async validate(payload: any): Promise<TokenResponse> {
     return {
       username: payload.username,

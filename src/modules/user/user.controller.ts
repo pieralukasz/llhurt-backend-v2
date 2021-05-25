@@ -17,10 +17,14 @@ import { UserService } from './user.service';
 import { Schema as MongooseSchema } from 'mongoose';
 import { Public, Roles } from '../../utils/decorators';
 import { Role } from '../../types/enum/Role';
+import { BasketService } from '../basket/basket.service';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly basketService: BasketService,
+  ) {}
 
   @Roles(Role.Admin)
   @Get('list')
@@ -60,7 +64,8 @@ export class UserController {
     @Body() createUserDto: CreateUserDto,
   ): Promise<User> {
     try {
-      await this.userService.createUser(createUserDto);
+      const user = await this.userService.createUser(createUserDto);
+      await this.basketService.createBasket(user._id);
       return res.status(HttpStatus.CREATED).json({
         status: HttpStatus.CREATED,
         message: 'Success: User has been created',

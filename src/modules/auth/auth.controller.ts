@@ -17,7 +17,6 @@ export class AuthController {
 
   @Get('auth/token')
   async getToken(@Request() req) {
-    console.log(req.user);
     return this.authService.token(req.user);
   }
 }

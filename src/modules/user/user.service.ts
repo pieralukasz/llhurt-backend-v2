@@ -42,7 +42,9 @@ export class UserService {
     return existingUser;
   }
 
-  async createUser(createUserDto: CreateUserDto): Promise<User> {
+  async createUser(
+    createUserDto: CreateUserDto,
+  ): Promise<Partial<User & { _id: string }>> {
     const user = Object.assign(createUserDto, {
       password: await hashPassword(createUserDto.password),
     });

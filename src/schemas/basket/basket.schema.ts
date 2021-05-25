@@ -2,16 +2,17 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { Schema as MongooseSchema } from 'mongoose';
 import { User } from '../user';
+import { ProductType } from '../../types/ProductType';
 
 export type BasketDocument = Basket & Document;
 
 @Schema()
 export class Basket {
-  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'User' })
-  user: User;
+  @Prop({ required: true })
+  userId: string;
 
   @Prop()
-  products: any[];
+  products: ProductType[];
 
   @Prop({ default: Date.now() })
   createdAt: Date;
