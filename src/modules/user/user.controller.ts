@@ -29,8 +29,19 @@ export class UserController {
   @Roles(Role.Admin)
   @Get('list')
   async getAllUsers(@Res() res, @Query() pagination: PaginationDto) {
-    const users = await this.userService.findAllUsers(pagination);
-    return res.status(HttpStatus.OK).json(users);
+    try {
+      const users = await this.userService.findAllUsers(pagination);
+      return res.status(HttpStatus.OK).json({
+        status: HttpStatus.OK,
+        message: `Success: Users has been found`,
+        users,
+      });
+    } catch (error) {
+      return res.status(HttpStatus.NOT_FOUND).json({
+        status: HttpStatus.NOT_FOUND,
+        message: 'Error',
+      });
+    }
   }
 
   @Roles(Role.Admin)
