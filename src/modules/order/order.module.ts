@@ -7,12 +7,14 @@ import { OrderService } from './order.service';
 
 import MailModule from '../mail';
 import BasketModule from '../basket';
+import UserModule from '../user';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Order.name, schema: OrderSchema }]),
     BasketModule,
     MailModule,
+    UserModule,
   ],
   controllers: [OrderController],
   providers: [OrderService],

@@ -7,7 +7,7 @@ import config from '@environments';
 import Log from './utils/Log';
 
 (async () => {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { cors: true });
 
   app.enableCors();
 

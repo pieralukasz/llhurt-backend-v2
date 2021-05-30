@@ -3,9 +3,15 @@ import { Module } from '@nestjs/common';
 import { MailService } from './mail.service';
 import { MailController } from './mail.controller';
 import config from '@environments';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      envFilePath: '.env',
+      load: [config],
+      isGlobal: true,
+    }),
     MailerModule.forRoot({
       transport: {
         service: 'gmail',
@@ -15,7 +21,7 @@ import config from '@environments';
         },
       },
       defaults: {
-        from: `"No Reply" <${config().mailName}>`,
+        from: `"No Reply" <config().mailName>`,
       },
     }),
   ],

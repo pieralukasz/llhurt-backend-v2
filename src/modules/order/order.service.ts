@@ -4,6 +4,7 @@ import { Basket, Order, OrderDocument } from '@schemas';
 import { Model } from 'mongoose';
 import { CreateOrderDto, PaginationDto } from '@dto';
 import { Role } from '../../types/enum/Role';
+import { ProductType } from '../../types/ProductType';
 
 @Injectable()
 export class OrderService {
@@ -23,11 +24,9 @@ export class OrderService {
 
   async createNewOrder(
     createOrderDto: CreateOrderDto,
-    basket: Basket,
+    products: ProductType[],
     userId: string,
   ) {
-    const { products } = basket;
-
     return this.orderModel.create({
       userId,
       products,

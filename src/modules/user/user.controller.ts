@@ -84,7 +84,7 @@ export class UserController {
     } catch (error) {
       return res.status(HttpStatus.BAD_REQUEST).json({
         status: HttpStatus.BAD_REQUEST,
-        message: `Error: User not created | ${error.message}`,
+        message: `Error: User not created | User can already exist.`,
       });
     }
   }

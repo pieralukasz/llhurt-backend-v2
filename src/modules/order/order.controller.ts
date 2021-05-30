@@ -8,12 +8,17 @@ import {
   Req,
   Res,
 } from '@nestjs/common';
+
+import config from '@environments';
+import { CreateOrderDto, PaginationDto } from '@dto';
+
 import { OrderService } from './order.service';
 import { BasketService } from '../basket/basket.service';
 import { Role } from '../../types/enum/Role';
 import { Roles } from '../../utils/decorators';
-import { CreateOrderDto, PaginationDto } from '@dto';
+
 import { MailService } from '../mail/mail.service';
+import { UserService } from '../user/user.service';
 
 @Controller('order')
 export class OrderController {
@@ -21,6 +26,7 @@ export class OrderController {
     private readonly orderService: OrderService,
     private readonly basketService: BasketService,
     private readonly mailService: MailService,
+    private readonly userService: UserService,
   ) {}
 
   @Get('list')
@@ -55,13 +61,31 @@ export class OrderController {
   ) {
     try {
       const basket = await this.basketService.findBasketByUserId(req.user.sub);
+
+      const user = await this.userService.findUserById(req.user.sub);
+
+      const { products } = basket;
+
+      if (products.length === 0) {
+        throw new Error('Error: Basket is empty');
+      }
+
       const order = this.orderService.createNewOrder(
         createOrderDto,
-        basket,
+        products,
         req.user.sub,
       );
 
       if (order) {
+        // await this.mailService.sendMail(user.email, 'Twoje zamówienie');
+        await this.mailService.sendMail(
+          config().mailOwner,
+          `LLHURT Order ~ ${user.email}`,
+          products,
+          user,
+        );
+        // TODO EMAIL BOSS
+
         await this.basketService.findBasketByUserIdAndUpdate(req.user.sub, {
           products: [],
         });

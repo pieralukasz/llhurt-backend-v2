@@ -4,6 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import { TokenResponse } from '../../types/TokenResponse';
 import { comparePassword } from '../../utils/bcryptPassword';
 import { User } from '@schemas';
+import { Schema as MongooseSchema } from 'mongoose';
 
 @Injectable()
 export class AuthService {
@@ -24,18 +25,29 @@ export class AuthService {
     return null;
   }
 
-  async login(user: any) {
+  async login(user: User & { _id: MongooseSchema.Types.ObjectId }) {
     const payload: TokenResponse = {
       username: user.email,
       sub: user._id,
     };
     return {
       access_token: this.jwtService.sign(payload),
+      user: {
+        taxIdentifier: user.taxIdentifier,
+        email: user.email,
+      },
     };
   }
 
-  // TODO check if is good
   async token(token: TokenResponse) {
-    return { access_token: this.jwtService.sign(token) };
+    const user = await this.usersService.findUserById(token.sub);
+
+    return {
+      access_token: this.jwtService.sign(token),
+      user: {
+        taxIdentifier: user.taxIdentifier,
+        email: user.email,
+      },
+    };
   }
 }

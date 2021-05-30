@@ -11,6 +11,8 @@ const createExcelFile = (
 ) => {
   let endRow = 0;
 
+  console.log(xl);
+
   const wb = new xl.Workbook();
 
   const ws = wb.addWorksheet('Zamowienie');
@@ -72,14 +74,14 @@ const createExcelFile = (
   });
 
   ws.cell(endRow + 4, 1)
-    .string(`Zamówienie ${user.email} - (${user.taxIdentifier})`)
+    .string(`Zamówienie - ${user.email} - (${user.taxIdentifier})`)
     .style(styleInformation);
 
   ws.cell(endRow + 6, 1)
     .string(message)
     .style(styleMessage);
 
-  wb.write(path.join(__dirname, '/order.xlsx'));
+  return wb.write('order.xlsx');
 };
 
 export default createExcelFile;
